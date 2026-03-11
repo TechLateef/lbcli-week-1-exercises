@@ -176,7 +176,7 @@ NEW_TAPROOT_ADDR=$(trim "$NEW_TAPROOT_ADDR")
 
 # STUDENT TASK: Get the address info to extract the internal key
 # WRITE YOUR SOLUTION BELOW:
-ADDR_INFO=$($B_CLI -rpcwallet="btrustwallet" getaddressinfo $NEW_TAPROOT_ADDR)
+ADDR_INFO=$($B_CLI -rpcwallet="btrustwallet" getaddressinfo "$NEW_TAPROOT_ADDR")
 check_cmd "Getting address info"
 
 # STUDENT TASK: Extract the internal key (the x-only pubkey) from the descriptor
@@ -193,7 +193,7 @@ echo "Simple descriptor: $SIMPLE_DESCRIPTOR"
 
 # STUDENT TASK: Get a proper descriptor with checksum
 # WRITE YOUR SOLUTION BELOW:
-TAPROOT_DESCRIPTOR=($B_CLI getdescriptorinfo "$SIMPLE_DESCRIPTOR" | jq -r '.descriptor')
+TAPROOT_DESCRIPTOR=$($B_CLI getdescriptorinfo "$SIMPLE_DESCRIPTOR" | jq -r '.descriptor')
 check_cmd "Descriptor generation"
 TAPROOT_DESCRIPTOR=$(trim "$TAPROOT_DESCRIPTOR")
 echo "Taproot treasure map: $TAPROOT_DESCRIPTOR"
