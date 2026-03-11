@@ -16,14 +16,14 @@ set -e
 # Set up the challenge scenario
 setup_challenge
 
-B_CLI=bitcoin-cli
+B_CLI="bitcoin-cli -regtest"
 # CHALLENGE PART 1: Create a wallet to track your discoveries
 echo "CHALLENGE 1: Create your explorer wallet"
 echo "----------------------------------------"
 echo "Create a wallet named 'btrustwallet' to track your Bitcoin exploration"
 # STUDENT TASK: Use bitcoin-cli to create a wallet named "btrustwallet"
 # WRITE YOUR SOLUTION BELOW:
-bitcoin-cli -named createwallet wallet_name="btrustwallet" descriptors=true
+$B_CLI -named createwallet wallet_name="btrustwallet" descriptors=true
 
 
 
@@ -31,7 +31,7 @@ bitcoin-cli -named createwallet wallet_name="btrustwallet" descriptors=true
 echo "Now, create another wallet called 'treasurewallet' to fund your adventure"
 # STUDENT TASK: Create another wallet called "treasurewallet"
 # WRITE YOUR SOLUTION BELOW:
-bitcoin-cli -named createwallet wallet_name="treasurewallet" descriptors=true
+$B_CLI -named createwallet wallet_name="treasurewallet" descriptors=true
 
 
 
@@ -39,7 +39,7 @@ bitcoin-cli -named createwallet wallet_name="treasurewallet" descriptors=true
 # STUDENT TASK: Generate a new address in the treasurewallet
 # WRITE YOUR SOLUTION BELOW:
 
-TREASURE_ADDR=$(bitcoin-cli -rpcwallet="treasurewallet" getnewaddress)
+TREASURE_ADDR=$($B_CLI  -rpcwallet="treasurewallet" getnewaddress)
 check_cmd "Address generation"
 echo "Mining to address: $TREASURE_ADDR"
 
@@ -65,16 +65,16 @@ echo "The treasure hunt requires 4 different types of addresses to collect funds
 echo "Generate one of each address type (legacy, p2sh-segwit, bech32, bech32m)"
 # STUDENT TASK: Generate addresses of each type
 # WRITE YOUR SOLUTION BELOW:
-LEGACY_ADDR=$($B_CLI getnewaddress -addresstype legacy)
+LEGACY_ADDR=$($B_CLI -rpcwallet="btrustwallet" getnewaddress -addresstype legacy)
 check_cmd "Legacy address generation"
 
-P2SH_ADDR=$($B_CLI getnewaddress -addresstype p2sh-segwit)
+P2SH_ADDR=$($B_CLI -rpcwallet="btrustwallet" getnewaddress -addresstype p2sh-segwit)
 check_cmd "P2SH address generation"
 
-SEGWIT_ADDR=$($B_CLI getnewaddress -addresstype bech32)
+SEGWIT_ADDR=$($B_CLI -rpcwallet="btrustwallet" getnewaddress -addresstype bech32)
 check_cmd "SegWit address generation"
 
-TAPROOT_ADDR=$($B_CLI getnewaddress -addresstype bech32m)
+TAPROOT_ADDR=$($B_CLI -rpcwallet="btrustwallet" getnewaddress -addresstype bech32m)
 check_cmd "Taproot address generation"
 
 echo "Your exploration addresses:"
@@ -107,7 +107,7 @@ NEW_BALANCE=$($B_CLI -rpcwallet="treasurewallet" getbalance)
 check_cmd "New balance check"
 echo "Your treasure balance: $NEW_BALANCE BTC"
 
-COLLECTED=$($B_CLI -rpcwallet"treasurewallet" getwalletinfo | jq '.balance + .unconfirmed_balance')
+COLLECTED=$($B_CLI -rpcwallet"btrustwallet" getwalletinfo | jq '.balance')
 check_cmd "Balance calculation"
 echo "You've collected $COLLECTED BTC in treasures!"
 
@@ -193,7 +193,7 @@ echo "Simple descriptor: $SIMPLE_DESCRIPTOR"
 
 # STUDENT TASK: Get a proper descriptor with checksum
 # WRITE YOUR SOLUTION BELOW:
-TAPROOT_DESCRIPTOR=($B_CLI getaddressinfo "$SIMPLE_DESCRIPTOR" | jq -r '.descriptors')
+TAPROOT_DESCRIPTOR=($B_CLI getdescriptorinfo "$SIMPLE_DESCRIPTOR" | jq -r '.descriptor')
 check_cmd "Descriptor generation"
 TAPROOT_DESCRIPTOR=$(trim "$TAPROOT_DESCRIPTOR")
 echo "Taproot treasure map: $TAPROOT_DESCRIPTOR"
