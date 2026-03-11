@@ -1,1 +1,2 @@
-# Write the bitcoin cli command to get the bitcoin node installation version 
+# Write the bitcoin cli command to get the bitcoin node installation version
+ bitcoind -version
