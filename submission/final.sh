@@ -170,13 +170,13 @@ echo "Create a descriptor for your taproot address and derive the address to ens
 
 # STUDENT TASK: Create a new taproot address
 # WRITE YOUR SOLUTION BELOW:
-NEW_TAPROOT_ADDR=$($B_CLI -named getnewaddress -addresstype bech32m)
+NEW_TAPROOT_ADDR=$($B_CLI -rpcwallet="btrustwallet" -named getnewaddress -addresstype bech32m)
 check_cmd "New taproot address generation"
 NEW_TAPROOT_ADDR=$(trim "$NEW_TAPROOT_ADDR")
 
 # STUDENT TASK: Get the address info to extract the internal key
 # WRITE YOUR SOLUTION BELOW:
-ADDR_INFO=$($B_CLI getaddressinfo $NEW_TAPROOT_ADDR)
+ADDR_INFO=$($B_CLI -rpcwallet="btrustwallet" getaddressinfo $NEW_TAPROOT_ADDR)
 check_cmd "Getting address info"
 
 # STUDENT TASK: Extract the internal key (the x-only pubkey) from the descriptor
