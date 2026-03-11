@@ -71,7 +71,7 @@ jobs:
         run: |
           chmod +x submission/03.sh
           LATEST_BLOCK_HEIGHT=$(submission/03.sh)
-          if [[ "$LATEST_BLOCK_HEIGHT" >= 0 ]]; then
+          if [[ $LATEST_BLOCK_HEIGHT -ge 0 ]]; then
             echo "✅ Success: Node latest block height passed!"
           else
             echo "❌ Error: Node latest block height failed!"
@@ -82,7 +82,7 @@ jobs:
         run: |
             chmod +x submission/04.sh
             WALLET=$(submission/04.sh)
-            if [[ "$WALLET" == *"btrustwallet"* ]]; then
+            if [[ "$WALLET" == *"builderswallet"* ]]; then
               echo "✅ Success: Wallet creation passed!"
             else
               echo "❌ Error: Wallet creation failed!"
@@ -148,7 +148,7 @@ jobs:
         run: |
           chmod +x submission/10.sh
           RESULT=$(submission/10.sh)
-          if [[ "$RESULT" == "true" ]]; then
+          if [[ "$RESULT" == "false" ]]; then
             echo "✅ Success: Address validation passed!"
           else
             echo "❌ Error: Address validation failed"
